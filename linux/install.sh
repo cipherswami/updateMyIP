@@ -49,7 +49,7 @@ fi
 # Install necessary packages
 echo "[+] Installing required packages..."
 echo ""
-if apt-get update && apt-get install -y python3 python3-pip network-manager; then
+if apt-get update && apt-get install -y python3 python3-pip network-manager net-tools; then
     echo ""
     echo "[+] Done"
 else
