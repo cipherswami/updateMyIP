@@ -23,7 +23,7 @@ def log_message(message, level=logging.INFO):
 def load_password(dev=0):
     if dev == 0:
         # Return your weblogin password
-        return "ENTER YOUR PASSWORD HERE"
+        return "YOUR_ACTUAL_PASSWORD_HERE"
     elif dev == 1:
         # Load password from file (USED for testing)
         file_path='password.txt.creds'

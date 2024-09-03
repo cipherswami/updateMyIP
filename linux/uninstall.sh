@@ -19,6 +19,7 @@ function banner {
 # Variables
 DISPATCHER_SCRIPT_NAME="99-ip-change.sh" # Name of Dispatcher script
 PYTHON_SCRIPT_DST="/usr/local/bin/updateMyIP.py"  # Destination path for the Python script
+IP_FILE_PATH="/tmp/current_ip.txt"  # Path to the IP address file
 
 # Check if running as root
 if [ "$(id -u)" -ne 0 ]; then
@@ -55,6 +56,21 @@ fi
 
 echo ""
 
+# Remove the IP file if it exists
+echo "[+] Checking and removing $IP_FILE_PATH if it exists..."
+if [ -f "$IP_FILE_PATH" ]; then
+    if rm -f "$IP_FILE_PATH"; then
+        echo "[+] Successfully removed $IP_FILE_PATH"
+    else
+        echo "[!] Failed to remove $IP_FILE_PATH" 1>&2
+        exit 1
+    fi
+else
+    echo "[+] $IP_FILE_PATH does not exist, no action needed."
+fi
+
+echo ""
+
 # Restart NetworkManager to apply changes
 echo "[+] Restarting NetworkManager to apply changes..."
 if systemctl restart NetworkManager; then
@@ -68,4 +84,4 @@ echo ""
 
 echo "[#] Uninstallation complete."
 echo ""
-echo "[#] The dispatcher script and Python script have been removed."
+echo "[#] The dispatcher script, Python script, and IP address file have been removed."
