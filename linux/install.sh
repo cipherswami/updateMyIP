@@ -17,8 +17,8 @@ function banner {
 }
 
 # Variables
-DISPATCHER_SCRIPT_NAME="99-ip-change.sh" # Name of Dispatcer script
-PYTHON_SCRIPT_SRC="../src/updateMyIP.py"  # Source path for the Python script
+DISPATCHER_SCRIPT="linux/99-ip-change.sh" # Name of Dispatcer script
+PYTHON_SCRIPT_SRC="src/updateMyIP.py"  # Source path for the Python script
 PYTHON_SCRIPT_DST="/usr/local/bin/updateMyIP.py"  # Destination path for the Python script
 
 # Check if running as root
@@ -35,14 +35,14 @@ banner
 echo ""
 
 # Ensure dispatcher script exists
-if [ ! -f "$DISPATCHER_SCRIPT_NAME" ]; then
-    echo "[!] Dispatcher script $DISPATCHER_SCRIPT_NAME not found. Please make sure it's in the current directory." 1>&2
+if [ ! -f "$DISPATCHER_SCRIPT" ]; then
+    echo "[!] Dispatcher script $DISPATCHER_SCRIPT not found. Please make sure it's in the linux directory." 1>&2
     exit 1
 fi
 
 # Ensure Python script exists
 if [ ! -f "$PYTHON_SCRIPT_SRC" ]; then
-    echo "[!] Python script $PYTHON_SCRIPT_SRC not found. Please make sure it's in ../src directory." 1>&2
+    echo "[!] Python script $PYTHON_SCRIPT_SRC not found. Please make sure it's in src directory." 1>&2
     exit 1
 fi
 
@@ -72,10 +72,10 @@ echo ""
 
 # Move dispatcher script to NetworkManager dispatcher directory
 echo "[+] Installing NetworkManager dispatcher script..."
-if cp "$DISPATCHER_SCRIPT_NAME" /etc/NetworkManager/dispatcher.d/ && chmod +x /etc/NetworkManager/dispatcher.d/"$DISPATCHER_SCRIPT_NAME"; then
-    echo "[+] Successfully installed $DISPATCHER_SCRIPT_NAME"
+if cp "$DISPATCHER_SCRIPT" /etc/NetworkManager/dispatcher.d/ && chmod +x /etc/NetworkManager/dispatcher.d/$(basename "$DISPATCHER_SCRIPT"); then
+    echo "[+] Successfully installed $DISPATCHER_SCRIPT"
 else
-    echo "[!] Failed to install $DISPATCHER_SCRIPT_NAME" 1>&2
+    echo "[!] Failed to install $DISPATCHER_SCRIPT" 1>&2
     exit 1
 fi
 

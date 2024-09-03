@@ -14,8 +14,7 @@ Whether you're managing a lab network or simply want to keep track of your devic
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/intentlab-iitk/updateMyIP
-cd updateMyIP
+git clone https://github.com/intentlab-iitk/updateMyIP && cd updateMyIP
 ```
 
 ### 2. **Set Up Your Password**
@@ -40,8 +39,7 @@ Save and close the file [CTRL+s, CTRL+x]
 ### 3. Run the Installation Script
 
 ```bash
-cd linux
-sudo ./install.sh
+sudo ./linux/install.sh
 ```
 - This script will:
     - Install required packages.
@@ -55,8 +53,7 @@ sudo ./install.sh
 1. **Run the Uninstallation Script:**
 
 ```bash
-cd linux
-sudo ./uninstall.sh
+sudo ./linux/uninstall.sh
 ```
 
 This script will:

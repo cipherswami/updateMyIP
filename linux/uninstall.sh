@@ -48,7 +48,7 @@ echo ""
 # Remove the dispatcher script
 echo "[+] Removing NetworkManager dispatcher script..."
 if rm -f /etc/NetworkManager/dispatcher.d/"$DISPATCHER_SCRIPT_NAME"; then
-    echo "[+] Successfully removed $DISPATCHER_SCRIPT_NAME"
+    echo "[+] Successfully removed /etc/NetworkManager/dispatcher.d/$DISPATCHER_SCRIPT_NAME"
 else
     echo "[!] Failed to remove $DISPATCHER_SCRIPT_NAME" 1>&2
     exit 1
