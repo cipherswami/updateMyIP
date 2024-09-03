@@ -11,15 +11,15 @@ function banner {
     clear
     echo "##############################################################"
     echo "#------------------------------------------------------------#"
-    echo "                    IP Monitor Uninstall                      "
+    echo "                   updateMyIP Uninstallation                 "
     echo "#------------------------------------------------------------#"
     echo "####################### INTENT LABs ##########################"
 }
 
 # Variables
-DISPATCHER_SCRIPT_NAME="99-ip-change.sh" # Name of Dispatcher script
-PYTHON_SCRIPT_DST="/usr/local/bin/updateMyIP.py"  # Destination path for the Python script
-IP_FILE_PATH="/tmp/current_ip.txt"  # Path to the IP address file
+SCRIPT_NAME="updateMyIP.sh"  # Name of the script
+SCRIPT_DST="/etc/NetworkManager/dispatcher.d/$SCRIPT_NAME"  # Destination path for the script
+IP_FILE_PATH="/tmp/currentIP.txt"  # Path to the IP file
 
 # Check if running as root
 if [ "$(id -u)" -ne 0 ]; then
@@ -34,39 +34,31 @@ banner
 
 echo ""
 
-# Remove the Python script
-echo "[+] Removing $PYTHON_SCRIPT_DST"
-if rm -f "$PYTHON_SCRIPT_DST"; then
-    echo "[+] Successfully removed $PYTHON_SCRIPT_DST"
+# Remove the script from NetworkManager dispatcher directory
+if [ -f "$SCRIPT_DST" ]; then
+    echo "[+] Removing $SCRIPT_DST"
+    if rm "$SCRIPT_DST"; then
+        echo "[+] Successfully removed $SCRIPT_NAME"
+    else
+        echo "[!] Failed to remove $SCRIPT_NAME" 1>&2
+        exit 1
+    fi
 else
-    echo "[!] Failed to remove $PYTHON_SCRIPT_DST" 1>&2
-    exit 1
-fi
-
-echo ""
-
-# Remove the dispatcher script
-echo "[+] Removing NetworkManager dispatcher script..."
-if rm -f /etc/NetworkManager/dispatcher.d/"$DISPATCHER_SCRIPT_NAME"; then
-    echo "[+] Successfully removed /etc/NetworkManager/dispatcher.d/$DISPATCHER_SCRIPT_NAME"
-else
-    echo "[!] Failed to remove $DISPATCHER_SCRIPT_NAME" 1>&2
-    exit 1
+    echo "[!] $SCRIPT_NAME not found in $SCRIPT_DST"
 fi
 
 echo ""
 
 # Remove the IP file if it exists
-echo "[+] Checking and removing $IP_FILE_PATH if it exists..."
 if [ -f "$IP_FILE_PATH" ]; then
-    if rm -f "$IP_FILE_PATH"; then
+    echo "[+] Removing $IP_FILE_PATH"
+    if rm "$IP_FILE_PATH"; then
         echo "[+] Successfully removed $IP_FILE_PATH"
     else
         echo "[!] Failed to remove $IP_FILE_PATH" 1>&2
-        exit 1
     fi
 else
-    echo "[+] $IP_FILE_PATH does not exist, no action needed."
+    echo "[!] $IP_FILE_PATH not found"
 fi
 
 echo ""
@@ -82,6 +74,6 @@ fi
 
 echo ""
 
-echo "[#] Uninstallation complete."
+echo "[#] Uninstallation done :)"
 echo ""
-echo "[#] The dispatcher script, Python script, and IP address file have been removed."
+echo "[#] The script and IP file have been removed, and NetworkManager has been restarted."

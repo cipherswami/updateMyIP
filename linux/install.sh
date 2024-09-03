@@ -11,15 +11,15 @@ function banner {
     clear
     echo "##############################################################"
     echo "#------------------------------------------------------------#"
-    echo "                      IP Monitor Installation                 "
+    echo "                   updateMyIP Uninstallation                 "
     echo "#------------------------------------------------------------#"
     echo "####################### INTENT LABs ##########################"
 }
 
 # Variables
-DISPATCHER_SCRIPT="linux/99-ip-change.sh" # Name of Dispatcer script
-PYTHON_SCRIPT_SRC="src/updateMyIP.py"  # Source path for the Python script
-PYTHON_SCRIPT_DST="/usr/local/bin/updateMyIP.py"  # Destination path for the Python script
+SCRIPT_NAME="updateMyIP.sh"  # Name of the script
+SCRIPT_SRC="linux/$SCRIPT_NAME"  # Source path for the script
+SCRIPT_DST="/etc/NetworkManager/dispatcher.d/$SCRIPT_NAME"  # Destination path for the script
 
 # Check if running as root
 if [ "$(id -u)" -ne 0 ]; then
@@ -34,48 +34,18 @@ banner
 
 echo ""
 
-# Ensure dispatcher script exists
-if [ ! -f "$DISPATCHER_SCRIPT" ]; then
-    echo "[!] Dispatcher script $DISPATCHER_SCRIPT not found. Please make sure it's in the linux directory." 1>&2
+# Ensure script file exists
+if [ ! -f "$SCRIPT_SRC" ]; then
+    echo "[!] Script $SCRIPT_SRC not found." 1>&2
     exit 1
 fi
 
-# Ensure Python script exists
-if [ ! -f "$PYTHON_SCRIPT_SRC" ]; then
-    echo "[!] Python script $PYTHON_SCRIPT_SRC not found. Please make sure it's in src directory." 1>&2
-    exit 1
-fi
-
-# Install necessary packages
-echo "[+] Installing required packages..."
-echo ""
-if apt-get update && apt-get install -y python3 python3-pip network-manager net-tools; then
-    echo ""
-    echo "[+] Done"
+# Copy the script to /usr/local/bin and make it executable
+echo "[+] Copying $SCRIPT_SRC to $SCRIPT_DST"
+if cp "$SCRIPT_SRC" "$SCRIPT_DST" && chmod +x "$SCRIPT_DST"; then
+    echo "[+] Successfully copied executable $SCRIPT_NAME"
 else
-    echo "[!] Failed to install packages" 1>&2
-    exit 1
-fi
-
-echo ""
-
-# Copy the Python script to /usr/local/bin and make it executable
-echo "[+] Copying $PYTHON_SCRIPT_SRC to $PYTHON_SCRIPT_DST"
-if cp "$PYTHON_SCRIPT_SRC" "$PYTHON_SCRIPT_DST" && chmod +x "$PYTHON_SCRIPT_DST"; then
-    echo "[+] Successfully copied executable $PYTHON_SCRIPT_SRC"
-else
-    echo "[!] Failed to copy executable $PYTHON_SCRIPT_SRC" 1>&2
-    exit 1
-fi
-
-echo ""
-
-# Move dispatcher script to NetworkManager dispatcher directory
-echo "[+] Installing NetworkManager dispatcher script..."
-if cp "$DISPATCHER_SCRIPT" /etc/NetworkManager/dispatcher.d/ && chmod +x /etc/NetworkManager/dispatcher.d/$(basename "$DISPATCHER_SCRIPT"); then
-    echo "[+] Successfully installed $DISPATCHER_SCRIPT"
-else
-    echo "[!] Failed to install $DISPATCHER_SCRIPT" 1>&2
+    echo "[!] Failed to copy executable $SCRIPT_NAME" 1>&2
     exit 1
 fi
 
@@ -94,4 +64,4 @@ echo ""
 
 echo "[#] Installation done :)"
 echo ""
-echo "[#] The dispatcher script and Python script are installed and configured."
+echo "[#] The script has been installed and configured."
