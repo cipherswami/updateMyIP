@@ -24,7 +24,7 @@ Whether you're managing a lab network or simply want to keep track of your devic
     nano linux/updateMyIP.sh
     ```
 
-    Locate the line with `ACTUAL_PASSWORD="YOUR_ACTUAL_PASSWORD"` and replace `"PASSWORD_HERE"` with your web login password.
+    Locate the line with `ACTUAL_PASSWORD="PASSWORD_HERE"` and replace `"PASSWORD_HERE"` with your web login password.
 
     Save and close the file (`CTRL+S`, `CTRL+X`).
 
