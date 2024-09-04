@@ -26,12 +26,12 @@ Whether you're managing a lab network or simply want to keep track of your devic
 
     Locate the line with `ACTUAL_PASSWORD="YOUR_ACTUAL_PASSWORD"` and replace `"PASSWORD_HERE"` with your web login password.
 
-    Save and close the file (`CTRL+O`, `Enter`, `CTRL+X`).
+    Save and close the file (`CTRL+S`, `CTRL+X`).
 
 3. **Run the Installation Script**
 
     ```bash
-    sudo ./linux/install.sh
+    sudo linux/install.sh
     ```
 
     This script will:
@@ -54,7 +54,7 @@ Whether you're managing a lab network or simply want to keep track of your devic
 2. **Run the uninstallation script**
 
     ```bash
-    sudo ./linux/uninstall.sh
+    sudo linux/uninstall.sh
     ```
 
     This script will:
