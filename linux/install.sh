@@ -34,6 +34,13 @@ banner
 
 echo ""
 
+# Install necessary packages
+echo "Installing necessary packages..."
+apt-get update
+apt-get install -y curl network-manager
+
+echo ""
+
 # Ensure script file exists
 if [ ! -f "$SCRIPT_SRC" ]; then
     echo "[!] Script $SCRIPT_SRC not found." 1>&2

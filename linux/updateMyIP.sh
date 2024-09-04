@@ -126,7 +126,6 @@ if [ "$STATUS" == "up" ]; then
     if [ "$CURRENTIP" != "$PREVIOUS_IP" ]; then
         echo "$CURRENTIP" > "$IP_FILE_PATH"
         # Update IP information and log the action
-        sleep 3
         update_ip_info
     else
         log_message "No IP address change detected."
